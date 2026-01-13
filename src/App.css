@@ -22,7 +22,15 @@
   justify-content: center;
   align-items: flex-start;
   overflow-y: auto;
-  padding: 3rem;
+  padding: 2rem;
+}
+
+.preview-scaler {
+  transform: scale(0.65);
+  transform-origin: top center;
+  margin-bottom: -100px;
+  /* Compensate for whitespace caused by scaling */
+  box-shadow: var(--shadow-float);
 }
 
 /* Mobile Responsive */

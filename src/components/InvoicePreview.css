@@ -1,0 +1,236 @@
+.invoice-preview {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    background: white;
+    box-shadow: var(--shadow-paper);
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--color-primary);
+    /* Brand accent */
+    padding-bottom: 2rem;
+}
+
+.invoice-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+}
+
+.invoice-number {
+    font-size: 1.25rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+.provider-box {
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+/* Grid Layout for Addresses */
+.participants-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    gap: 2rem;
+}
+
+.participant-box {
+    flex: 1;
+}
+
+.box-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.company-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 0.25rem;
+}
+
+.label {
+    width: 80px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Dates & Payment Info */
+.info-bar {
+    display: flex;
+    background: #F8FAFC;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-weight: 600;
+}
+
+/* Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 3rem;
+}
+
+.items-table th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid #000;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.items-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.col-right {
+    text-align: right;
+}
+
+/* Totals */
+.totals-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3rem;
+}
+
+.totals-box {
+    width: 300px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.total-row.final {
+    border-bottom: none;
+    border-top: 2px solid #000;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+}
+
+/* Footer & QR */
+.footer-section {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 2rem;
+    border-top: 1px dotted #ccc;
+}
+
+.signature-box {
+    height: 80px;
+    width: 200px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #888;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 5px;
+}
+
+.qr-box {
+    border: 1px solid #eee;
+    padding: 0.5rem;
+    background: white;
+}
+
+/* PRINT STYLES */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        background: white;
+    }
+
+    .app-container {
+        display: block;
+        height: auto;
+        width: auto;
+        overflow: visible;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .preview-area,
+    .preview-scaler {
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+        display: block;
+        transform: none !important;
+        /* Reset scaling */
+        box-shadow: none;
+    }
+
+    .invoice-preview {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        min-height: 100vh;
+        padding: 15mm;
+        /* Slightly less padding for safe zones */
+    }
+
+    /* Ensure colors print exact */
+    .invoice-header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
