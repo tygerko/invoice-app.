@@ -43,22 +43,31 @@ export function loadGoogleScripts(callback) {
 
 // 2. Upload Function
 export async function uploadToDrive(data, fileName) {
+    console.log('--- Google Drive Upload Attempt ---');
+    console.log('Client ID:', CLIENT_ID);
+    console.log('Origin:', window.location.origin);
+
     if (!CLIENT_ID) {
+        console.error('Missing VITE_GOOGLE_CLIENT_ID in .env file');
         alert('Chýba Google Client ID! Nastav ho v premenných prostredia (VITE_GOOGLE_CLIENT_ID).');
         return;
     }
 
     // Ensure scripts are loaded
     if (!gapiInited || !gisInited) {
+        console.log('Google scripts not loaded yet, loading now...');
         loadGoogleScripts(() => uploadToDrive(data, fileName));
         return;
     }
 
     tokenClient.callback = async (resp) => {
         if (resp.error) {
+            console.error('Google Auth Error:', resp);
+            alert(`Chyba pri autorizácii Google Drive: ${resp.error}`);
             throw resp;
         }
 
+        console.log('Auth successful, starting upload...');
         try {
             // Create JSON backup of the invoice data
             const fileContent = JSON.stringify(data, null, 2);
@@ -80,18 +89,27 @@ export async function uploadToDrive(data, fileName) {
                 body: form,
             });
 
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Drive API Error:', errorData);
+                throw new Error('Nepodarilo sa nahrať súbor.');
+            }
+
             const result = await response.json();
-            alert(`Faktúra (dáta) úspešne zálohovaná na Google Drive!`); // ID: ${result.id}
+            console.log('Upload complete!', result);
+            alert(`Faktúra (dáta) úspešne zálohovaná na Google Drive!`);
 
         } catch (err) {
-            console.error(err);
-            alert('Chyba pri nahrávaní na Google Drive.');
+            console.error('Upload Error Details:', err);
+            alert('Chyba pri nahrávaní na Google Drive: ' + err.message);
         }
     };
 
     if (window.gapi.client.getToken() === null) {
+        console.log('Requesting initial access token...');
         tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
+        console.log('Refreshing or using existing token...');
         tokenClient.requestAccessToken({ prompt: '' });
     }
 }
