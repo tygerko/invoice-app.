@@ -3,6 +3,7 @@ import { DetailsSection } from './form/DetailsSection';
 import { SupplierSection } from './form/SupplierSection';
 import { CustomerSection } from './form/CustomerSection';
 import { ItemsSection } from './form/ItemsSection';
+import { ActionsSection } from './form/ActionsSection';
 
 export function InvoiceForm({ data, onChange, savedClients, onSaveClient }) {
     // Helpers to adapt to the section's expected onChange signature
@@ -45,6 +46,11 @@ export function InvoiceForm({ data, onChange, savedClients, onSaveClient }) {
             <ItemsSection
                 items={data.items}
                 onChange={updateItems}
+            />
+
+            <ActionsSection
+                data={data}
+                onSaveClient={onSaveClient}
             />
         </div>
     );
