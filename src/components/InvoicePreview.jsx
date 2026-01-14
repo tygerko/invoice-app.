@@ -150,13 +150,26 @@ export function InvoicePreview({ data }) {
             {/* Footer / QR */}
             <div className="footer-section">
                 <div className="left-footer" style={{ flex: 1 }}>
-                    {details.showQrCode && qrValue && (
-                        <div className="qr-box">
-                            <QRCodeSVG value={qrValue} size={128} level="M" />
-                            <div style={{ fontSize: '0.7rem', marginTop: '5px', textAlign: 'center' }}>
-                                {details.currency === 'CZK' ? 'QR Platba' : 'PAY by square / SEPA'}
+                    {details.showQrCode && (
+                        qrValue ? (
+                            <div className="qr-box">
+                                <QRCodeSVG value={qrValue} size={128} level="M" />
+                                <div style={{ fontSize: '0.7rem', marginTop: '5px', textAlign: 'center' }}>
+                                    {details.currency === 'CZK' ? 'QR Platba' : 'PAY by square / SEPA'}
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="qr-missing-warning" style={{
+                                padding: '10px',
+                                border: '1px dashed #f87171',
+                                borderRadius: '4px',
+                                color: '#b91c1c',
+                                fontSize: '0.75rem',
+                                backgroundColor: '#fef2f2'
+                            }}>
+                                ⚠️ QR kód sa nezobrazí, kým nevyplníte IBAN dodávateľa.
+                            </div>
+                        )
                     )}
                 </div>
             </div>
