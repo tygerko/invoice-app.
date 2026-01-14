@@ -16,74 +16,70 @@ export function ActionsSection({ data, onSaveClient }) {
     return (
         <Card title="Akcie">
             <div className="flex flex-col gap-3">
-                {/* Primary Action - PDF/Print with modern design */}
+                {/* Primary Glassy Button - PDF/Print */}
                 <button
                     onClick={handlePrint}
-                    className="group relative overflow-hidden flex items-center gap-3 px-5 py-3.5 rounded-xl font-semibold text-white transition-all duration-300 shadow-sm hover:shadow-lg active:scale-[0.98]"
+                    className="group relative overflow-hidden flex items-center justify-center gap-3 px-6 py-4 rounded-2xl font-semibold text-white transition-all duration-300 active:scale-[0.97]"
                     style={{
-                        background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                        background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%)',
+                        boxShadow: '0 8px 32px rgba(139, 92, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                        border: '1px solid rgba(255, 255, 255, 0.18)',
+                    }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 12px 40px rgba(139, 92, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(139, 92, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                     }}
                 >
-                    {/* Animated shine effect */}
+                    {/* Glassy overlay */}
                     <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        className="absolute inset-0"
                         style={{
-                            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)',
-                            transform: 'translateX(-100%)',
-                            animation: 'shine 2s infinite'
+                            background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%)',
+                            pointerEvents: 'none'
                         }}
                     />
 
-                    <div
-                        className="flex items-center justify-center w-10 h-10 rounded-lg"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
-                    >
-                        <Download size={20} strokeWidth={2.5} />
-                    </div>
-
-                    <div className="flex-1 text-left">
-                        <div className="font-semibold text-base">Stiahnuť PDF / Tlačiť</div>
-                        <div className="text-xs opacity-90 font-normal">Uložiť alebo vytlačiť faktúru</div>
-                    </div>
+                    <Download size={20} strokeWidth={2.5} className="relative z-10" />
+                    <span className="relative z-10 text-base">Stiahnuť PDF / Tlačiť</span>
                 </button>
 
-                {/* Secondary Action - Google Drive with modern design */}
+                {/* Secondary Glassy Button - Google Drive */}
                 <button
                     onClick={handleGoogleDrive}
-                    className="group flex items-center gap-3 px-5 py-3.5 rounded-xl font-medium border-2 transition-all duration-300 hover:shadow-md active:scale-[0.98]"
+                    className="group relative overflow-hidden flex items-center justify-center gap-3 px-6 py-4 rounded-2xl font-medium transition-all duration-300 active:scale-[0.97]"
                     style={{
-                        borderColor: '#e5e7eb',
-                        backgroundColor: 'white',
+                        background: 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5)',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
                         color: '#111827',
                     }}
                     onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#3b82f6';
-                        e.currentTarget.style.backgroundColor = '#eff6ff';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
                     }}
                     onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#e5e7eb';
-                        e.currentTarget.style.backgroundColor = 'white';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5)';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.8)';
                     }}
                 >
-                    <div
-                        className="flex items-center justify-center w-10 h-10 rounded-lg transition-colors"
-                        style={{ backgroundColor: '#eff6ff' }}
-                    >
-                        <Cloud size={20} strokeWidth={2.5} style={{ color: '#3b82f6' }} />
-                    </div>
-
-                    <div className="flex-1 text-left">
-                        <div className="font-semibold text-base">Nahrať na Google Drive</div>
-                        <div className="text-xs" style={{ color: '#6b7280' }}>Zálohovať do cloudu</div>
-                    </div>
+                    <Cloud size={20} strokeWidth={2.5} style={{ color: '#6366f1' }} />
+                    <span className="text-base">Nahrať na Google Drive</span>
                 </button>
 
-                {/* Info Note with modern styling */}
+                {/* Info Note with glassy effect */}
                 <div
-                    className="flex items-start gap-2.5 p-3.5 rounded-lg text-xs"
+                    className="flex items-start gap-2.5 p-3.5 rounded-xl text-xs"
                     style={{
-                        backgroundColor: '#eff6ff',
-                        border: '1px solid #bfdbfe',
+                        background: 'rgba(239, 246, 255, 0.6)',
+                        backdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(191, 219, 254, 0.5)',
                         color: '#1e40af'
                     }}
                 >
@@ -93,13 +89,6 @@ export function ActionsSection({ data, onSaveClient }) {
                     </p>
                 </div>
             </div>
-
-            <style>{`
-                @keyframes shine {
-                    0% { transform: translateX(-100%); }
-                    100% { transform: translateX(100%); }
-                }
-            `}</style>
         </Card>
     );
 }
