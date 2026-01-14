@@ -4,6 +4,7 @@ import { SupplierSection } from './form/SupplierSection';
 import { CustomerSection } from './form/CustomerSection';
 import { ItemsSection } from './form/ItemsSection';
 import { ActionsSection } from './form/ActionsSection';
+import { YodaQuote } from './YodaQuote';
 
 export function InvoiceForm({ data, onChange, savedClients, onSaveClient }) {
     // Helpers to adapt to the section's expected onChange signature
@@ -52,6 +53,8 @@ export function InvoiceForm({ data, onChange, savedClients, onSaveClient }) {
                 data={data}
                 onSaveClient={onSaveClient}
             />
+
+            <YodaQuote />
         </div>
     );
 }
