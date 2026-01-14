@@ -50,22 +50,22 @@ export function ItemsSection({ items, currency, onChange }) {
             <div className="flex flex-col gap-2">
                 {/* Header Row */}
                 <div
-                    className="grid gap-3 px-4 mb-1 text-xs font-semibold text-gray-500"
-                    style={{ gridTemplateColumns: 'minmax(0, 4fr) 80px 120px 80px 40px' }}
+                    className="grid gap-4 px-3 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                    style={{ gridTemplateColumns: '1fr 80px 100px 80px 40px' }}
                 >
                     <div>Popis</div>
-                    <div>Množstvo</div>
-                    <div>Cena/ks ({currencySymbol})</div>
-                    <div>DPH %</div>
+                    <div className="text-center">Množstvo</div>
+                    <div className="text-center">Cena/ks ({currencySymbol})</div>
+                    <div className="text-center">DPH %</div>
                     <div></div>
                 </div>
 
                 {items.map((item) => (
                     <div
                         key={item.id}
-                        className="grid gap-3 p-3 rounded-lg border border-dashed hover:border-solid transition-all items-center"
+                        className="grid gap-4 p-3 rounded-lg border border-dashed hover:border-solid transition-all items-center"
                         style={{
-                            gridTemplateColumns: 'minmax(0, 4fr) 80px 120px 80px 40px',
+                            gridTemplateColumns: '1fr 80px 100px 80px 40px',
                             borderColor: 'var(--color-border)',
                             backgroundColor: 'var(--color-bg-app)'
                         }}
@@ -82,6 +82,7 @@ export function ItemsSection({ items, currency, onChange }) {
                             value={item.quantity}
                             onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
                             className="bg-white"
+                            style={{ textAlign: 'center' }}
                         />
                         <Input
                             type="number"
@@ -90,12 +91,14 @@ export function ItemsSection({ items, currency, onChange }) {
                             value={item.price}
                             onChange={(e) => updateItem(item.id, 'price', Number(e.target.value))}
                             className="bg-white"
+                            style={{ textAlign: 'center' }}
                         />
                         <Input
                             type="number"
                             value={item.vatRate}
                             onChange={(e) => updateItem(item.id, 'vatRate', Number(e.target.value))}
                             className="bg-white"
+                            style={{ textAlign: 'center' }}
                         />
                         <div className="flex justify-center">
                             <button
