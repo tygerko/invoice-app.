@@ -26,6 +26,11 @@ Tento dokument slúži na sledovanie technických problémov, chýb a ich rieše
 - **Príčina**: Príkazy boli spúšťané v domovskom priečinku (`~`) namiesto priečinka projektu.
 - **Riešenie**: Navigácia do správneho priečinka pomocou `cd Documents/work/coding/invoice-app`.
 
+### 5. Opakované zmiznutie QR kódu (Regresia)
+- **Problém**: Funkcia/UI pre QR kód opakovane zmizla z rozhrania po zmenách v kóde.
+- **Príčina**: Pri refaktoringu alebo veľkých prepisoch komponentov sa pozabudlo na logiku zobrazenia QR kódu.
+- **Riešenie**: Dôsledná kontrola `InvoiceForm.jsx` a `InvoicePreview.jsx` po každej zmene. Pridané do checklistu pred nasadením.
+
 ---
 
 ## 💡 Prevencia do budúcna
