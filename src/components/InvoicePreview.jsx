@@ -149,7 +149,7 @@ export function InvoicePreview({ data }) {
 
             {/* Footer / QR */}
             <div className="footer-section">
-                <div className="left-footer">
+                <div className="left-footer" style={{ flex: 1 }}>
                     {details.showQrCode && qrValue && (
                         <div className="qr-box">
                             <QRCodeSVG value={qrValue} size={128} level="M" />
@@ -158,10 +158,6 @@ export function InvoicePreview({ data }) {
                             </div>
                         </div>
                     )}
-                </div>
-
-                <div className="signature-box">
-                    Podpis a pečiatka
                 </div>
             </div>
         </div>
