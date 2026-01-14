@@ -11,7 +11,8 @@ const quotes = [
     "K zisku cesta tŕnistá je.",
     "Zaplať, alebo neplat. Nič medzi tým nie je.",
     "Silný v Exceli som, hmmm.",
-    "Keď 900 faktúr vystavíš ty, tak dobre vyzerať nebudeš."
+    "Keď 900 faktúr vystavíš ty, tak dobre vyzerať nebudeš.",
+    "Temný kočner blížiť sa."
 ];
 
 export function YodaQuote() {
