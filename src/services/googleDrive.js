@@ -1,15 +1,97 @@
-
-// Logic to handle Google Drive Upload
-// This requires a Google Cloud Project with Drive API enabled.
-// Client ID and API Key must be provided.
-
-const CLIENT_ID = ''; // User needs to provide this
-const API_KEY = ''; // User needs to provide this
-const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
-export function uploadToDrive(fileBlob, fileName) {
-    // TODO: Implement GAPI Auth and Upload
-    console.log('Uploading to Drive:', fileName);
-    alert('Google Drive integration requires Client ID configuration. See implementation settings.');
+// We will load the Client ID from environment variables
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+let tokenClient;
+let gapiInited = false;
+let gisInited = false;
+
+// 1. Load the scripts dynamically
+export function loadGoogleScripts(callback) {
+    if (gapiInited && gisInited) {
+        if (callback) callback();
+        return;
+    }
+
+    const script1 = document.createElement('script');
+    script1.src = 'https://apis.google.com/js/api.js';
+    script1.onload = () => {
+        window.gapi.load('client', async () => {
+            await window.gapi.client.init({
+                discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+            });
+            gapiInited = true;
+            if (gisInited && callback) callback();
+        });
+    };
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.src = 'https://accounts.google.com/gsi/client';
+    script2.onload = () => {
+        tokenClient = window.google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            callback: '', // defined later
+        });
+        gisInited = true;
+        if (gapiInited && callback) callback();
+    };
+    document.body.appendChild(script2);
+}
+
+// 2. Upload Function
+export async function uploadToDrive(data, fileName) {
+    if (!CLIENT_ID) {
+        alert('Chýba Google Client ID! Nastav ho v premenných prostredia (VITE_GOOGLE_CLIENT_ID).');
+        return;
+    }
+
+    // Ensure scripts are loaded
+    if (!gapiInited || !gisInited) {
+        loadGoogleScripts(() => uploadToDrive(data, fileName));
+        return;
+    }
+
+    tokenClient.callback = async (resp) => {
+        if (resp.error) {
+            throw resp;
+        }
+
+        try {
+            // Create JSON backup of the invoice data
+            const fileContent = JSON.stringify(data, null, 2);
+            const file = new Blob([fileContent], { type: 'application/json' });
+
+            const metadata = {
+                'name': fileName.replace('.pdf', '.json'),
+                'mimeType': 'application/json',
+            };
+
+            const accessToken = window.gapi.client.getToken().access_token;
+            const form = new FormData();
+            form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+            form.append('file', file);
+
+            const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                method: 'POST',
+                headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+                body: form,
+            });
+
+            const result = await response.json();
+            alert(`Faktúra (dáta) úspešne zálohovaná na Google Drive!`); // ID: ${result.id}
+
+        } catch (err) {
+            console.error(err);
+            alert('Chyba pri nahrávaní na Google Drive.');
+        }
+    };
+
+    if (window.gapi.client.getToken() === null) {
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+    } else {
+        tokenClient.requestAccessToken({ prompt: '' });
+    }
 }
