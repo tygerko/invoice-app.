@@ -1,0 +1,252 @@
+/* Basic Utilities for Responsive Design (Mini-Tailwind) */
+
+/* Flexbox */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.gap-1 {
+    gap: 0.25rem;
+}
+
+.gap-2 {
+    gap: 0.5rem;
+}
+
+.gap-3 {
+    gap: 0.75rem;
+}
+
+.gap-4 {
+    gap: 1rem;
+}
+
+.gap-6 {
+    gap: 1.5rem;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Spacing */
+.p-2 {
+    padding: 0.5rem;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.pb-2 {
+    padding-bottom: 0.5rem;
+}
+
+.pb-20 {
+    padding-bottom: 5rem;
+}
+
+.px-3 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+.py-1\.5 {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+}
+
+.py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+/* Sizing */
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+/* Typography */
+.text-xs {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-gray-400 {
+    color: #9ca3af;
+}
+
+.text-gray-500 {
+    color: #6b7280;
+}
+
+.text-red-500 {
+    color: var(--color-danger);
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
+}
+
+/* Effects */
+.rounded-md {
+    border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+    border-radius: var(--radius-lg);
+}
+
+.rounded-xl {
+    border-radius: var(--radius-xl);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.transition-all {
+    transition: var(--transition-normal);
+}
+
+.transition-colors {
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.transition-shadow {
+    transition: box-shadow 0.3s;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.select-none {
+    user-select: none;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+/* Position */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.z-10 {
+    z-index: 10;
+}
+
+/* Form Specific */
+.outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: 1fr;
+        /* Stack specifics on mobile */
+    }
+
+    .sidebar {
+        padding: 1rem;
+        min-width: 100%;
+    }
+
+    /* Adjust buttons for touch targets */
+    button {
+        min-height: 44px;
+    }
+}
