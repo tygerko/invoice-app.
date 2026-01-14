@@ -31,6 +31,22 @@ export function DetailsSection({ data, onChange }) {
                     value={data.dueDate}
                     onChange={handleChange}
                 />
+                <div className="flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-gray-700">Mena</label>
+                    <select
+                        name="currency"
+                        value={data.currency}
+                        onChange={(e) => {
+                            const newCurrency = e.target.value;
+                            onChange('details', 'currency', newCurrency);
+                            onChange('details', 'market', newCurrency === 'CZK' ? 'CZ' : 'SK');
+                        }}
+                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    >
+                        <option value="EUR">EUR (€)</option>
+                        <option value="CZK">CZK (Kč)</option>
+                    </select>
+                </div>
             </div>
 
             <div className="mt-4 flex gap-6">

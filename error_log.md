@@ -31,6 +31,16 @@ Tento dokument slúži na sledovanie technických problémov, chýb a ich rieše
 - **Príčina**: Pri refaktoringu alebo veľkých prepisoch komponentov sa pozabudlo na logiku zobrazenia QR kódu.
 - **Riešenie**: Dôsledná kontrola `InvoiceForm.jsx` a `InvoicePreview.jsx` po každej zmene. Pridané do checklistu pred nasadením.
 
+### 6. Google Drive nahrával JSON namiesto PDF
+- **Problém**: Tlačidlo "Google Drive" vytvorilo na disku `.json` súbor s kódom namiesto čitateľnej faktúry.
+- **Príčina**: Služba `googleDrive.js` bola pôvodne nastavená len na zálohu dát (JSON), nie na generovanie PDF.
+- **Riešenie**: Implementovaná knižnica `html2pdf.js`, ktorá zachytí náhľad faktúry a skonvertuje ho na PDF Blob pred nahraním.
+
+### 7. Opakované zmiznutie CZK meny a CZ QR systému (Regresia)
+- **Problém**: Z rozhrania zmizla možnosť prepnúť menu na CZK a s tým súvisiaci český QR kód (SPAD).
+- **Príčina**: Pri refaktoringu `DetailsSection.jsx` sa vynechal výber meny/trhu. Logika v `qrGenerator.js` zostala funkčná, ale nedostupná cez UI.
+- **Riešenie**: Pridanie dropdownu pre výber meny späť do `DetailsSection.jsx`. Je potrebné kontrolovať prítomnosť tohto poľa pri budúcich zmenách v UI.
+
 ---
 
 ## 💡 Prevencia do budúcna

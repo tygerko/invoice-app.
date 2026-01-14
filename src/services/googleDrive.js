@@ -1,3 +1,5 @@
+import html2pdf from 'html2pdf.js';
+
 const SCOPES = 'https://www.googleapis.com/auth/drive.file';
 
 // We will load the Client ID from environment variables
@@ -75,7 +77,7 @@ async function getOrCreateFolder(accessToken) {
 
 // 2. Upload Function
 export async function uploadToDrive(data, fileName) {
-    console.log('--- Google Drive Upload Attempt ---');
+    console.log('--- Google Drive Upload Attempt (PDF) ---');
 
     if (!CLIENT_ID) {
         console.error('Missing VITE_GOOGLE_CLIENT_ID in .env file');
@@ -99,25 +101,40 @@ export async function uploadToDrive(data, fileName) {
         try {
             const accessToken = window.gapi.client.getToken().access_token;
 
+            // Get the element to convert to PDF
+            const element = document.getElementById('invoice-preview');
+            if (!element) {
+                alert('Nepodarilo sa nájsť náhľad faktúry na vygenerovanie PDF.');
+                return;
+            }
+
+            console.log('Generating PDF Blob...');
+            const opt = {
+                margin: 0,
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Generate the PDF as a Blob
+            const pdfBlob = await html2pdf().from(element).set(opt).output('blob');
+
             // Get or create the "Faktúry" folder
             console.log('Ensuring "Faktúry" folder exists...');
             const folderId = await getOrCreateFolder(accessToken);
 
-            console.log('Uploading file to folder:', folderId);
-
-            // Create JSON backup of the invoice data
-            const fileContent = JSON.stringify(data, null, 2);
-            const file = new Blob([fileContent], { type: 'application/json' });
+            console.log('Uploading PDF to folder:', folderId);
 
             const metadata = {
-                'name': fileName.replace('.pdf', '.json'),
-                'mimeType': 'application/json',
-                'parents': [folderId] // Put file in the folder
+                'name': fileName,
+                'mimeType': 'application/pdf',
+                'parents': [folderId]
             };
 
             const form = new FormData();
             form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-            form.append('file', file);
+            form.append('file', pdfBlob);
 
             const response = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
                 method: 'POST',
@@ -133,7 +150,7 @@ export async function uploadToDrive(data, fileName) {
 
             const result = await response.json();
             console.log('Upload complete!', result);
-            alert(`Faktúra (dáta) úspešne zálohovaná v priečinku "Faktúry" na Google Drive!`);
+            alert(`Faktúra (PDF) úspešne nahraná v priečinku "Faktúry" na Google Drive!`);
 
         } catch (err) {
             console.error('Upload Error Details:', err);

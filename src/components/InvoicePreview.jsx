@@ -11,7 +11,7 @@ export function InvoicePreview({ data }) {
     const qrValue = getQrString(data, total);
 
     return (
-        <div className="invoice-preview">
+        <div className="invoice-preview" id="invoice-preview">
             {/* Header */}
             <div className="invoice-header">
                 <div className="header-left">

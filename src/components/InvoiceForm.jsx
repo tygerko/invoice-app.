@@ -46,6 +46,7 @@ export function InvoiceForm({ data, onChange, savedClients, onSaveClient }) {
 
             <ItemsSection
                 items={data.items}
+                currency={data.details.currency}
                 onChange={updateItems}
             />
 

@@ -3,7 +3,7 @@ import { Card } from '../ui/Card';
 import { Input } from '../ui/Input';
 import { Trash2, Plus } from 'lucide-react';
 
-export function ItemsSection({ items, onChange }) {
+export function ItemsSection({ items, currency, onChange }) {
 
     const updateItem = (id, field, value) => {
         const newItems = items.map(item =>
@@ -28,6 +28,8 @@ export function ItemsSection({ items, onChange }) {
         onChange(items.filter(item => item.id !== id));
     };
 
+    const currencySymbol = currency === 'CZK' ? 'Kč' : '€';
+
     return (
         <Card
             title="Položky faktúry"
@@ -45,45 +47,57 @@ export function ItemsSection({ items, onChange }) {
                 </button>
             }
         >
-            <div className="flex flex-col gap-4">
-                {items.map((item, index) => (
+            <div className="flex flex-col gap-2">
+                {/* Header Row */}
+                <div
+                    className="grid gap-3 px-4 mb-1 text-xs font-semibold text-gray-500"
+                    style={{ gridTemplateColumns: 'minmax(0, 4fr) 80px 120px 80px 40px' }}
+                >
+                    <div>Popis</div>
+                    <div>Množstvo</div>
+                    <div>Cena/ks ({currencySymbol})</div>
+                    <div>DPH %</div>
+                    <div></div>
+                </div>
+
+                {items.map((item) => (
                     <div
                         key={item.id}
-                        className="grid gap-3 p-4 rounded-lg border border-dashed hover:border-solid transition-all"
+                        className="grid gap-3 p-3 rounded-lg border border-dashed hover:border-solid transition-all items-center"
                         style={{
-                            gridTemplateColumns: 'minmax(0, 4fr) 1fr 2fr 1fr auto',
+                            gridTemplateColumns: 'minmax(0, 4fr) 80px 120px 80px 40px',
                             borderColor: 'var(--color-border)',
                             backgroundColor: 'var(--color-bg-app)'
                         }}
                     >
                         <Input
-                            label={index === 0 ? "Popis" : ""}
                             value={item.description}
                             onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                             placeholder="Názov položky"
+                            className="bg-white"
                         />
                         <Input
-                            label={index === 0 ? "Mn." : ""}
                             type="number"
                             min="0"
                             value={item.quantity}
                             onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
+                            className="bg-white"
                         />
                         <Input
-                            label={index === 0 ? "Cena/ks (€)" : ""}
                             type="number"
                             min="0"
                             step="0.01"
                             value={item.price}
                             onChange={(e) => updateItem(item.id, 'price', Number(e.target.value))}
+                            className="bg-white"
                         />
                         <Input
-                            label={index === 0 ? "DPH %" : ""}
                             type="number"
                             value={item.vatRate}
                             onChange={(e) => updateItem(item.id, 'vatRate', Number(e.target.value))}
+                            className="bg-white"
                         />
-                        <div className={`flex items-end ${index === 0 ? 'pb-2' : ''}`}>
+                        <div className="flex justify-center">
                             <button
                                 onClick={() => removeItem(item.id)}
                                 className="p-2 rounded-md hover:bg-red-50 text-red-500 transition-colors"
