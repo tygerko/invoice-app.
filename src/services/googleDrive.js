@@ -41,11 +41,41 @@ export function loadGoogleScripts(callback) {
     document.body.appendChild(script2);
 }
 
+// Helper to get or create the "Faktúry" folder
+async function getOrCreateFolder(accessToken) {
+    const folderName = 'Faktúry';
+
+    // 1. Search for existing folder
+    const searchUrl = `https://www.googleapis.com/drive/v3/files?q=name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+    const searchRes = await fetch(searchUrl, {
+        headers: { 'Authorization': 'Bearer ' + accessToken }
+    });
+    const searchData = await searchRes.json();
+
+    if (searchData.files && searchData.files.length > 0) {
+        return searchData.files[0].id;
+    }
+
+    // 2. Create if not found
+    const createUrl = 'https://www.googleapis.com/drive/v3/files';
+    const createRes = await fetch(createUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: folderName,
+            mimeType: 'application/vnd.google-apps.folder'
+        })
+    });
+    const createData = await createRes.json();
+    return createData.id;
+}
+
 // 2. Upload Function
 export async function uploadToDrive(data, fileName) {
     console.log('--- Google Drive Upload Attempt ---');
-    console.log('Client ID:', CLIENT_ID);
-    console.log('Origin:', window.location.origin);
 
     if (!CLIENT_ID) {
         console.error('Missing VITE_GOOGLE_CLIENT_ID in .env file');
@@ -55,7 +85,6 @@ export async function uploadToDrive(data, fileName) {
 
     // Ensure scripts are loaded
     if (!gapiInited || !gisInited) {
-        console.log('Google scripts not loaded yet, loading now...');
         loadGoogleScripts(() => uploadToDrive(data, fileName));
         return;
     }
@@ -67,8 +96,15 @@ export async function uploadToDrive(data, fileName) {
             throw resp;
         }
 
-        console.log('Auth successful, starting upload...');
         try {
+            const accessToken = window.gapi.client.getToken().access_token;
+
+            // Get or create the "Faktúry" folder
+            console.log('Ensuring "Faktúry" folder exists...');
+            const folderId = await getOrCreateFolder(accessToken);
+
+            console.log('Uploading file to folder:', folderId);
+
             // Create JSON backup of the invoice data
             const fileContent = JSON.stringify(data, null, 2);
             const file = new Blob([fileContent], { type: 'application/json' });
@@ -76,9 +112,9 @@ export async function uploadToDrive(data, fileName) {
             const metadata = {
                 'name': fileName.replace('.pdf', '.json'),
                 'mimeType': 'application/json',
+                'parents': [folderId] // Put file in the folder
             };
 
-            const accessToken = window.gapi.client.getToken().access_token;
             const form = new FormData();
             form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
             form.append('file', file);
@@ -97,7 +133,7 @@ export async function uploadToDrive(data, fileName) {
 
             const result = await response.json();
             console.log('Upload complete!', result);
-            alert(`Faktúra (dáta) úspešne zálohovaná na Google Drive!`);
+            alert(`Faktúra (dáta) úspešne zálohovaná v priečinku "Faktúry" na Google Drive!`);
 
         } catch (err) {
             console.error('Upload Error Details:', err);
@@ -106,10 +142,8 @@ export async function uploadToDrive(data, fileName) {
     };
 
     if (window.gapi.client.getToken() === null) {
-        console.log('Requesting initial access token...');
         tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-        console.log('Refreshing or using existing token...');
         tokenClient.requestAccessToken({ prompt: '' });
     }
 }
