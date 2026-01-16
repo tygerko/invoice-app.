@@ -1,6 +1,7 @@
 import { useInvoiceData } from './hooks/useInvoiceData'
 import { InvoiceForm } from './components/InvoiceForm'
 import { InvoicePreview } from './components/InvoicePreview'
+import { PreviewScaler } from './components/ui/PreviewScaler'
 import './App.css'
 
 function App() {
@@ -29,11 +30,9 @@ function App() {
         />
       </div>
       <div className="preview-area">
-        <div className="preview-container">
-          <div className="preview-scaler">
-            <InvoicePreview data={data} />
-          </div>
-        </div>
+        <PreviewScaler>
+          <InvoicePreview data={data} />
+        </PreviewScaler>
       </div>
     </div>
   )

@@ -48,11 +48,8 @@ export function ItemsSection({ items, currency, onChange }) {
             }
         >
             <div className="flex flex-col gap-2">
-                {/* Header Row */}
-                <div
-                    className="grid gap-3 px-3 mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                    style={{ gridTemplateColumns: '1fr 65px 100px 70px 30px' }}
-                >
+                {/* Header Row - Hidden on Mobile */}
+                <div className="items-grid-header hidden sm:grid">
                     <div>Popis</div>
                     <div>Mn.</div>
                     <div>Cena/ks ({currencySymbol})</div>
@@ -61,43 +58,47 @@ export function ItemsSection({ items, currency, onChange }) {
                 </div>
 
                 {items.map((item) => (
-                    <div
-                        key={item.id}
-                        className="grid gap-3 p-2.5 rounded-lg border border-dashed hover:border-solid transition-all items-center"
-                        style={{
-                            gridTemplateColumns: '1fr 65px 100px 70px 30px',
-                            borderColor: 'var(--color-border)',
-                            backgroundColor: 'var(--color-bg-app)'
-                        }}
-                    >
-                        <Input
-                            value={item.description}
-                            onChange={(e) => updateItem(item.id, 'description', e.target.value)}
-                            placeholder="Názov položky"
-                            className="bg-white"
-                        />
-                        <Input
-                            type="number"
-                            min="0"
-                            value={item.quantity}
-                            onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
-                            className="bg-white"
-                        />
-                        <Input
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            value={item.price}
-                            onChange={(e) => updateItem(item.id, 'price', Number(e.target.value))}
-                            className="bg-white"
-                        />
-                        <Input
-                            type="number"
-                            value={item.vatRate}
-                            onChange={(e) => updateItem(item.id, 'vatRate', Number(e.target.value))}
-                            className="bg-white"
-                        />
-                        <div className="flex justify-end">
+                    <div key={item.id} className="items-grid-row">
+                        <div className="col-description">
+                            <span className="mobile-only-label">Popis</span>
+                            <Input
+                                value={item.description}
+                                onChange={(e) => updateItem(item.id, 'description', e.target.value)}
+                                placeholder="Názov položky"
+                                className="bg-white"
+                            />
+                        </div>
+                        <div className="col-quantity">
+                            <span className="mobile-only-label">Mn.</span>
+                            <Input
+                                type="number"
+                                min="0"
+                                value={item.quantity}
+                                onChange={(e) => updateItem(item.id, 'quantity', Number(e.target.value))}
+                                className="bg-white"
+                            />
+                        </div>
+                        <div className="col-price">
+                            <span className="mobile-only-label">Cena/ks ({currencySymbol})</span>
+                            <Input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                value={item.price}
+                                onChange={(e) => updateItem(item.id, 'price', Number(e.target.value))}
+                                className="bg-white"
+                            />
+                        </div>
+                        <div className="col-vat">
+                            <span className="mobile-only-label">DPH %</span>
+                            <Input
+                                type="number"
+                                value={item.vatRate}
+                                onChange={(e) => updateItem(item.id, 'vatRate', Number(e.target.value))}
+                                className="bg-white"
+                            />
+                        </div>
+                        <div className="col-delete">
                             <button
                                 onClick={() => removeItem(item.id)}
                                 className="p-1.5 rounded-md hover:bg-red-50 text-red-500 transition-colors"
