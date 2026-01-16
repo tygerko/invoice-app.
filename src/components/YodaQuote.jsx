@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Quote } from 'lucide-react';
+import yodaImage from '../assets/yoda.png';
 
 const quotes = [
     "Faktúru vystaviť musíš, alebo nie. Nie je skúšania.",
@@ -30,18 +29,31 @@ export function YodaQuote() {
             padding: '1rem',
             background: '#F0FDF4', // Light green bg
             border: '1px solid #BBF7D0',
-            borderRadius: '8px',
+            borderRadius: '12px',
             color: '#166534',
             fontSize: '0.85rem',
-            fontStyle: 'italic',
             display: 'flex',
-            gap: '0.5rem',
-            alignItems: 'start'
+            gap: '1rem',
+            alignItems: 'center',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)'
         }}>
-            <Quote size={16} style={{ minWidth: '16px', marginTop: '2px' }} />
+            <img
+                src={yodaImage}
+                alt="Master Yoda"
+                style={{
+                    width: '60px',
+                    height: '60px',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                }}
+            />
             <div>
-                <strong>Majster Yoda radí:</strong><br />
-                "{quote}"
+                <strong style={{ display: 'block', marginBottom: '4px', fontSize: '0.9rem' }}>
+                    Majster Yoda radí:
+                </strong>
+                <span style={{ fontStyle: 'italic' }}>
+                    "{quote}"
+                </span>
             </div>
         </div>
     );
