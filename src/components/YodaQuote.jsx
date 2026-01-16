@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import yodaImage from '../assets/yoda.png';
 
 const quotes = [
